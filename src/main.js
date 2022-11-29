@@ -10,12 +10,14 @@ import '@/styles/element-variables.scss'
 
 import VueAddition from '@/addition'
 import PortalVue from 'portal-vue'
+import CKEditor from 'ckeditor4-vue'
 
 Vue.config.productionTip = false
 
 Vue.use(ElementUI)
 Vue.use(VueAddition)
 Vue.use(PortalVue)
+Vue.use(CKEditor)
 
 new Vue({
   router,

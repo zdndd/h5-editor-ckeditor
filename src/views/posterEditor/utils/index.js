@@ -59,7 +59,7 @@ export function createDom(obj) {
             dom.setAttribute(key, attrs[key])
         })
         if (text) {
-            dom.innerText = text
+            dom.innerHTML = text
         }
         if (children && children.length > 0) {
             children.forEach(item => {

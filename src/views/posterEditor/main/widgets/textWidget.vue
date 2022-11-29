@@ -6,25 +6,19 @@
       class="text-container"
       contenteditable="false"
       :style="textStyle"
-      v-html="text"
+      v-html="newText"
     >
-      {{ text }}
+      {{ newText }}
     </div>
     <div
       v-else
       key="2"
       ref="textContainer"
-      v-clickoutside="saveText"
       class="text-container editing"
-      contenteditable="true"
-      :style="textStyle"
-      v-html="text"
     >
-      {{ text }}
+    <ckeditor
+      v-model="newText" type="inline" @blur="editorBlur"></ckeditor>
     </div>
-    <portal v-if="isActive" :to="$data.$controlTarget">
-      <text-control :key="item.id" :item="item" />
-    </portal>
   </div>
 </template>
 
@@ -40,7 +34,8 @@ export default {
   mixins: [TextWidget.widgetMixin()],
   data() {
     return {
-      isEditing: false
+      isEditing: false,
+      newText: ''
     }
   },
   computed: {
@@ -68,6 +63,7 @@ export default {
     }
   },
   mounted() {
+    this.newText = this.text
     this.$dragRef.$el.addEventListener('dblclick', () => {
       this.openEditing()
     })
@@ -89,16 +85,17 @@ export default {
         selection.addRange(range)
       })
     },
+    editorBlur(eee) {
+      this.newText = eee.editor.getData()
+      this.saveText()
+    },
     saveText(text) {
-      const ref = text || this.$refs.textContainer
       this.isEditing = false
-      console.log(ref.innerHTML)
       this.updateWidgetState({
         keyPath: 'text',
-        value: ref.innerHTML,
+        value: this.newText,
         widgetId: this.item.id
       })
-      console.log(this.text)
     }
   }
 }
