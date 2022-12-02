@@ -21,7 +21,11 @@ export function uploadActivityImgAssets(imgFile) {
     return new Promise((resolve, reject) => {
         const reader = new FileReader()
         reader.onload = () => {
-            resolve(reader.result)
+            const img = new Image()
+            img.onload = () => {
+                resolve({ src: reader.result, width: img.width, height: img.height })
+            }
+            img.src = reader.result
         }
         reader.onerror = reject
         reader.readAsDataURL(imgFile)

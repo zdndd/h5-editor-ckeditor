@@ -13,10 +13,10 @@
           transition="el-zoom-in-center"
         >
           <change-size />
-          <button slot="reference" title="编辑画布" class="change-size">
+          <!-- <button slot="reference" title="编辑画布" class="change-size">
             <i class="el-icon-s-tools" />
             编辑画布
-          </button>
+          </button> -->
           <!-- <i
             slot="reference"
             class="el-icon-paperclip change-size"

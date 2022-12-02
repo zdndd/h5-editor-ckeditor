@@ -68,7 +68,7 @@ export default {
     ...mapState(['canvasSize'])
   },
   methods: {
-    ...mapActions(['addBackground']),
+    ...mapActions(['addBackground', 'setCanvasSize']),
     backgroundColorChange() {
       this.addBackground(
         new BackgroundWidget({
@@ -94,7 +94,7 @@ export default {
         const file = inputNode.files
         const imgFile = file && file[0]
         await validateImage(imgFile)
-        const src = await uploadActivityImgAssets(imgFile)
+        const { src, width, height } = await uploadActivityImgAssets(imgFile)
         this.addBackground(
           new BackgroundWidget({
             wState: {
@@ -103,6 +103,7 @@ export default {
             }
           })
         )
+        this.setCanvasSize({ width: 500, height: Math.floor(height / width * 500) })
       } catch (e) {
         console.error(e)
       } finally {

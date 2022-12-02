@@ -29,7 +29,7 @@ export default {
         const file = inputNode.files
         const imgFile = file && file[0]
         await validateImage(imgFile)
-        const src = await uploadActivityImgAssets(imgFile)
+        const { src } = await uploadActivityImgAssets(imgFile)
         this.addImage({ src })
       } catch (e) {
         console.error(e)
