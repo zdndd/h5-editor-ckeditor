@@ -26,6 +26,11 @@ import extendSideBar from './extendSideBar'
 import layerPanel from './extendSideBar/layerPanel'
 import store from '@/store'
 import posterModule from '@/store/modules/poster/poster'
+import { aa } from '../../aa'
+import { bb } from '../../bb'
+import { cc } from '../../cc'
+import { ee } from '../../ee'
+import { dd } from '../../dd'
 
 const DELETE_KEY = 8 // delete
 const COPY_KEY = 67 // c
@@ -97,6 +102,10 @@ export default {
     document.addEventListener('keydown', this.keydownHandle)
     this.body = document.body
     this.mainPanelRef = this.$refs.main.$refs.mainPanel
+    // setTimeout(() => {
+    //   alert('====大家好，我是初始dd')
+    //   this.recover(dd)
+    // }, 2000)
   },
   beforeDestroy() {
     document.removeEventListener('keydown', this.keydownHandle)
@@ -117,7 +126,8 @@ export default {
       redo: 'history/redo',
       backupInit: 'backup/init',
       killAutoSaveTask: 'backup/killAutoSaveTask',
-      backupInvoker: 'backup/invoker'
+      backupInvoker: 'backup/invoker',
+      recover: 'backup/recover'
     }),
     keydownHandle(e) {
       if (e.target !== this.body) {

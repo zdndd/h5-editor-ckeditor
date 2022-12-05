@@ -507,6 +507,15 @@ const actions = {
                 return Promise.reject()
             }
         )
+    },
+    /**
+     * 保存当前的活动页配置,zdn新建
+     */
+    saveJsonPageConfig({ rootState, commit, rootGetters }) {
+        const coreData = rootGetters['poster/history/current']
+        return new Promise((resolve) => {
+            resolve({ ...coreData, canvasSize: rootState.poster.canvasSize })
+        })
     }
 }
 

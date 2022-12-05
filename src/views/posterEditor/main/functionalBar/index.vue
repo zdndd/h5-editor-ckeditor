@@ -1,7 +1,7 @@
 <template>
   <div class="functional-bar">
     <ul>
-      <li class="github">
+      <!-- <li class="github">
         <el-tooltip
           effect="dark"
           content="希望大佬们能给我点颗星⭐"
@@ -12,18 +12,26 @@
             <a href="https://github.com/a7650/h5-editor" target="blank">GitHub</a>
           </span>
         </el-tooltip>
-      </li>
-      <li @click="savePage">
+      </li>-->
+      <!-- <li @click="savePage">
         <i class="el-icon-upload" />
         <span>
           <el-badge is-dot :hidden="!isUnsavedState">
             {{ savePageLoading ? '正在保存' : '保存页面' }}
           </el-badge>
         </span>
-      </li>
-      <li @click="closeEditor">
+      </li> -->
+      <!-- <li @click="closeEditor">
         <i class="el-icon-circle-close" />
         <span>关闭编辑器</span>
+      </li>  -->
+      <li @click="saveJson">
+        <i class="el-icon-upload" />
+        <span>
+          <el-badge is-dot :hidden="!isUnsavedState">
+            {{ savePageLoading ? '正在保存' : '保存数据' }}
+          </el-badge>
+        </span>
       </li>
     </ul>
   </div>
@@ -41,7 +49,7 @@ export default {
     ...mapState(['isUnsavedState', 'posterItems'])
   },
   methods: {
-    ...mapActions(['saveActivityPageConfig']),
+    ...mapActions(['saveActivityPageConfig', 'saveJsonPageConfig']),
     closeEditor() {
       this.$router.back()
     },
@@ -54,6 +62,19 @@ export default {
       this.savePageLoading = true
       this.saveActivityPageConfig().finally(() => {
         this.savePageLoading = false
+      })
+    },
+    saveJson() {
+      if (this.savePageLoading) return
+      if (this.posterItems.length === 0) {
+        this.$message.error('当前画布中未添加任何元素，请添加后再提交')
+        return
+      }
+      this.savePageLoading = true
+      // 保存数据后设置为false, zdn新建, 参考backup/invoker
+      this.savePageLoading = false
+      this.saveJsonPageConfig().then((res) => {
+        console.log('json', res)
       })
     }
   }
@@ -70,11 +91,13 @@ export default {
   box-shadow: 0 0 6px rgba($color: #000000, $alpha: 0.2);
   z-index: 999;
   height: 24px;
+
   ul {
     /* padding: 2px 0; */
     /* height: 22px; */
     height: 100%;
   }
+
   li {
     user-select: none;
     cursor: pointer;
@@ -85,21 +108,26 @@ export default {
     align-items: center;
     transition: 0.2s;
     font-size: 14px;
+
     &:hover {
       color: #fff;
     }
+
     &:not(:first-child) {
       margin-left: 14px;
     }
+
     i {
       font-size: 16px;
       padding-right: 2px;
     }
+
     span {
       font-size: 14px;
     }
   }
-  .github{
+
+  .github {
     color: #fff;
   }
 }
