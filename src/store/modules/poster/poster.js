@@ -515,6 +515,8 @@ const actions = {
         const coreData = rootGetters['poster/history/current']
         return new Promise((resolve) => {
             resolve({ ...coreData, canvasSize: rootState.poster.canvasSize })
+            // 不知道干嘛用，参考saveActivityPageConfig，还是加上
+            commit(MTS.SET_UNSAVED_STATE, false)
         })
     }
 }

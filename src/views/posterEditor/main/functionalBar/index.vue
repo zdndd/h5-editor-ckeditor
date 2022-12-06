@@ -39,6 +39,8 @@
 
 <script>
 import { mapActions, mapState } from 'poster/poster.vuex'
+import ExportService from 'poster/service/exportService'
+
 export default {
   data() {
     return {
@@ -74,8 +76,12 @@ export default {
       // 保存数据后设置为false, zdn新建, 参考backup/invoker
       this.savePageLoading = false
       this.saveJsonPageConfig().then((res) => {
+        // 编辑状态数据
         console.log('json', res)
       })
+
+      // h5数据
+      ExportService.exportH5()
     }
   }
 }

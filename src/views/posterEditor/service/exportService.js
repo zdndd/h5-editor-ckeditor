@@ -9,8 +9,17 @@ function getAllWidgets() {
     return store.state.poster.posterItems
 }
 
-const htmlTemplate = `<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><title>Document</title><style>*{ padding:0;margin:0;}#container{overflow:hidden;width:100%;height:0;position:absolute;padding-top:#{containerPaddingTop}#}</style></head>
-<body><div id="container">#{containerInnerHtml}#</div></body></html>`
+const htmlTemplate = `<!DOCTYPE html><html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Document</title>
+<style>*{ padding:0;margin:0;}#container{overflow:hidden;width:100%;height:0;position:absolute;padding-top:#{containerPaddingTop}#}</style>
+</head>
+<body>
+<div id="container">#{containerInnerHtml}#</div>
+</body>
+</html>`
 
 export default class ExportService {
     static exportH5() {
@@ -38,8 +47,9 @@ export default class ExportService {
                 '#{containerInnerHtml}#',
                 backgroundHtml + bodyInnerHtml
             )
-        const htmlBolb = new Blob([finalHtmlCode], { type: 'text/html' })
-        saveAs(htmlBolb, 'index.html')
+        console.log('----', finalHtmlCode)
+        // const htmlBolb = new Blob([finalHtmlCode], { type: 'text/html' })
+        // saveAs(htmlBolb, 'index.html')
     }
     static exportPoster() {
         const allWidgets = getAllWidgets()
