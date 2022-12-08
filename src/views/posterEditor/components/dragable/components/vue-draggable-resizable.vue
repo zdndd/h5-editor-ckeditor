@@ -712,11 +712,11 @@ export default {
   }
   &:hover {
     /* border-color: $colorTheme; */
-    box-shadow: 0 0 0 1px #03A9F4
+    box-shadow: 0 0 0 1px #43a047
   }
   &.active {
     /* border-color: $colorTheme; */
-    box-shadow: 0 0 0 1px #03A9F4
+    box-shadow: 0 0 0 1px #43a047
   }
   &.active:before {
     content: '';
@@ -736,7 +736,7 @@ export default {
   font-size: 1px;
   border-radius: 50%;
   background: #fff;
-  border: 2px solid #03A9F4;
+  border: 2px solid #43a047;
 }
 .handle-rot {
   position: absolute;

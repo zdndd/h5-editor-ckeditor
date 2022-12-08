@@ -1,6 +1,6 @@
 export var ee = {
   background: {
-    id: "背景-6",
+    id: "背景-3",
     type: "background",
     typeLabel: "背景",
     componentName: "background-widget",
@@ -8,9 +8,9 @@ export var ee = {
     wState: {
       isSolid: true,
       src: "",
-      style: { backgroundColor: "rgb(232,221,203)" },
+      style: { backgroundColor: "rgb(249,204,173)" },
     },
-    dragInfo: { w: 500, h: 333, x: 0, y: 0, rotateZ: 0 },
+    dragInfo: { w: 338, h: 600, x: 0, y: 0, rotateZ: 0 },
     rename: "",
     lock: true,
     visible: true,
@@ -24,13 +24,14 @@ export var ee = {
   },
   posterItems: [
     {
-      id: "文本-2",
+      id: "文本-4",
       type: "text",
       typeLabel: "文本",
       componentName: "text-widget",
       icon: "icon-text",
       wState: {
-        text: "<p>大家好，我是ddi</p>\n\n<p>我是一个异尺寸</p>\n",
+        text:
+          "<p>标题pong</p>\n\n<p>&nbsp;</p>\n\n<p>&nbsp;</p>\n\n<p>&nbsp;</p>\n\n<p>pong</p>\n\n<p>&nbsp;</p>\n\n<p>&nbsp;</p>\n\n<p>赶脚这个才是文字</p>\n",
         style: {
           margin: "10px",
           wordBreak: "break-all",
@@ -49,7 +50,7 @@ export var ee = {
           textDecoration: "",
         },
       },
-      dragInfo: { x: 184, y: 14, w: 160, h: 50, rotateZ: 0 },
+      dragInfo: { x: 35, y: 83, w: 280, h: 320, rotateZ: 0 },
       rename: "",
       lock: false,
       visible: true,
@@ -60,8 +61,8 @@ export var ee = {
       removable: true,
       couldAddToActive: true,
       componentState: null,
-      _isBackup: true,
     },
   ],
-  canvasSize: { width: 500, height: 333 },
+  referenceLine: { row: [], col: [] },
+  canvasSize: { width: 338, height: 600 },
 };
