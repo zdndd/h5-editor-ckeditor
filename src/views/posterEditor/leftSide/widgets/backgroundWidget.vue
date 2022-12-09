@@ -103,7 +103,7 @@ export default {
             }
           })
         )
-        this.setCanvasSize({ width: 500, height: Math.floor(height / width * 500) })
+        this.setCanvasSize({ width: 338, height: Math.floor(height / width * 338) })
       } catch (e) {
         console.error(e)
       } finally {

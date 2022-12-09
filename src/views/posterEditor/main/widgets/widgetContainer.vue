@@ -1,5 +1,5 @@
 <template>
-  <!-- <vue-draggable-resizable
+  <vue-draggable-resizable
     ref="drag"
     :w="dragInfo.w"
     :h="dragInfo.h"
@@ -22,7 +22,7 @@
     @dragstop="onDragStop"
     @rotatestop="onRotateStop"
     @resizestop="onResizeStop"
-  > -->
+  >
     <component
       :is="item.componentName"
       ref="widget"
@@ -31,7 +31,7 @@
       v-on="$listeners"
       @draggableChange="draggable = $event"
     />
-  <!-- </vue-draggable-resizable> -->
+  </vue-draggable-resizable>
 </template>
 
 <script>

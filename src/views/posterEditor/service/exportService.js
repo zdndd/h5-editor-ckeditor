@@ -48,8 +48,8 @@ export default class ExportService {
                 backgroundHtml + bodyInnerHtml
             )
         console.log('----', finalHtmlCode)
-        // const htmlBolb = new Blob([finalHtmlCode], { type: 'text/html' })
-        // saveAs(htmlBolb, 'index.html')
+        const htmlBolb = new Blob([finalHtmlCode], { type: 'text/html' })
+        saveAs(htmlBolb, 'index.html')
     }
     static exportPoster() {
         const allWidgets = getAllWidgets()

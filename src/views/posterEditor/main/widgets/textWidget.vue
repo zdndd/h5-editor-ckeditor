@@ -1,12 +1,12 @@
 <template>
-  <div class="text-widget">
-    <div style="border:2px solid gold" v-html="newText"></div>
+  <ckeditor v-model="newText" type="inline" @blur="editorBlur"  :config="editorConfig"></ckeditor>
+  <!-- <div class="text-widget">
     <div v-if="!isEditing" key="1" class="text-container" contenteditable="false" :style="textStyle" v-html="newText">
     </div>
     <div v-else key="2" ref="textContainer" class="text-container editing" style="background:pink">
       <ckeditor v-model="newText" type="inline" @blur="editorBlur"  :config="editorConfig"></ckeditor>
     </div>
-  </div>
+  </div> -->
 </template>
 
 <script>
@@ -27,6 +27,10 @@ export default {
               label: '插入内容', // 标题可以修改这个
               title: 'My Dropdown Title',
               toolbar: 'basicstyles,0',
+              panel: {
+                    multiSelect: false,
+                    attributes: { 'aria-label': 'My Dropdown Title' }
+                },
               init: function() {
                 this.add('我才是内容', 'Foo!')
                 this.add('目前（2022.11）加息还未结束，美元资产价格毫无疑问还会继续跌，所以显然要手握现金，等资产价格跌到位再行动', 'Bar!')
@@ -52,14 +56,6 @@ export default {
     ...mapState(['canvasSize']),
     text() {
       return this.wState.text
-    },
-    textStyle() {
-      return this.wState.style
-    }
-  },
-  watch: {
-    isEditing(newVal) {
-      this.$emit('draggableChange', !newVal)
     }
   },
   created() {
@@ -74,40 +70,20 @@ export default {
   },
   mounted() {
     this.newText = this.text
-    this.$dragRef.$el.addEventListener('dblclick', () => {
-      this.openEditing()
-    })
   },
   methods: {
-    ...mapActions(['setWidgetConfig', 'updateWidgetState']),
-    getMenuList() {
-      return []
-    },
-    openEditing() {
-      this.isEditing = true
-      this.$nextTick(() => {
-        const ref = this.$refs.textContainer
-        console.log('--双击的时候--ref', this.$refs.textContainer)
-        if (!ref) return
-        const selection = window.getSelection()
-        const range = document.createRange()
-        range.selectNodeContents(ref)
-        selection.removeAllRanges()
-        selection.addRange(range)
-      })
-    },
+    ...mapActions(['updateWidgetState']),
     editorBlur(eee) {
       this.newText = eee.editor.getData()
       this.saveText()
     },
     saveText() {
-      this.isEditing = false
+      // this.isEditing = false
       this.updateWidgetState({
         keyPath: 'text',
         value: this.newText,
         widgetId: this.item.id
       })
-      console.log('--结束的时候--ref', this.$refs.textContainer)
     }
   }
 }
