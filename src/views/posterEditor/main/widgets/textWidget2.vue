@@ -1,22 +1,18 @@
-##X47lZ5BMscYn1CC##PAGE
 <template>
   <div class="text-widget">
+    <div style="border:2px solid gold" v-html="newText"></div>
     <div v-if="!isEditing" key="1" class="text-container" contenteditable="false" :style="textStyle" v-html="newText">
-      {{ newText }}
     </div>
     <div v-else key="2" ref="textContainer" class="text-container editing" style="background:pink">
-      <ckeditor v-model="newText" type="inline" @blur="editorBlur" :config="editorConfig"
-        @namespaceloaded="onNamespaceLoaded"></ckeditor>
+      <ckeditor v-model="newText" type="inline" @blur="editorBlur"  :config="editorConfig"></ckeditor>
     </div>
   </div>
 </template>
 
 <script>
 import { TextWidget } from 'poster/widgetConstructor'
-import { clickoutside } from 'poster/poster.directives'
 import { mapState, mapActions } from 'poster/poster.vuex'
 export default {
-  directives: { clickoutside },
   mixins: [TextWidget.widgetMixin()],
   data() {
     return {
@@ -24,10 +20,9 @@ export default {
       newText: '',
       editorConfig: {
         on: {
-          pluginsLoaded: function() {
-            var editor = this,
-              config = editor.config
-
+          pluginsLoaded: (evt) => {
+            console.log('双击的时候会触发你吗')
+            var editor = evt.editor
             editor.ui.addRichCombo('my-combo', {
               label: '插入内容', // 标题可以修改这个
               title: 'My Dropdown Title',
@@ -38,18 +33,18 @@ export default {
                 this.add('所以大家就盯着美国房产，特别是纽约的房产，萧条周期中再跌个15-20%很正常', 'Ping!')
                 this.add('我的观点，除了自住的房子，如果不是核心城市的核心地段的次新大户型，优先卖，其次换。', 'Pong!')
               },
-              onClick: function(value) {
-                console.log('--click value--', value)
+              onClick: (value) => {
+                editor.focus()
+                editor.fire('saveSnapshot')
                 editor.insertHtml(value)
-                console.log('onClick中的 newText:', this.newText)
+                editor.fire('saveSnapshot')
+                this.newText = editor.getData()
+                this.saveText()
               }
             })
           }
         }
         // extraPlugins: 'placeholder'
-      },
-      editorUI: {
-
       }
     }
   },
@@ -92,6 +87,7 @@ export default {
       this.isEditing = true
       this.$nextTick(() => {
         const ref = this.$refs.textContainer
+        console.log('--双击的时候--ref', this.$refs.textContainer)
         if (!ref) return
         const selection = window.getSelection()
         const range = document.createRange()
@@ -102,21 +98,16 @@ export default {
     },
     editorBlur(eee) {
       this.newText = eee.editor.getData()
-      console.log('blur中的 newText:', this.newText)
       this.saveText()
     },
-    saveText(text) {
+    saveText() {
       this.isEditing = false
       this.updateWidgetState({
         keyPath: 'text',
         value: this.newText,
         widgetId: this.item.id
       })
-    },
-    onNamespaceLoaded(CKEDITOR) {
-      // Add external `placeholder` plugin which will be available for each
-      // editor instance on the page.
-      CKEDITOR.plugins.addExternal('placeholder', '/Users/apple/Documents/zdndd/vue/h5-editor-ckeditor/src/views/posterEditor/plugins/', 'ckeditor.js')
+      console.log('--结束的时候--ref', this.$refs.textContainer)
     }
   }
 }
