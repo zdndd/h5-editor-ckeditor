@@ -1,4 +1,6 @@
 
+import axios from 'axios'
+
 /**
  * 添加页面配置
  * 此处的config是已经序列化好的当前编辑器的json数据
@@ -29,5 +31,20 @@ export function uploadActivityImgAssets(imgFile) {
         }
         reader.onerror = reject
         reader.readAsDataURL(imgFile)
+    })
+}
+
+export function getSelectList() {
+    return new Promise((resolve) => {
+        axios({
+            method: 'get',
+            url: '/zdn/selectList'
+        }).then((response) => {
+            if (response.data.code === 200) {
+                resolve(response.data.data.list)
+            }
+        }).catch((error) => {
+            console.log(error)
+        })
     })
 }

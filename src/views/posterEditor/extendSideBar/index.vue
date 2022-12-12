@@ -1,7 +1,7 @@
 <template>
   <div class="extend-side-bar">
     <div class="list">
-      <el-tooltip
+      <!-- <el-tooltip
         effect="dark"
         content="撤销 ctrl+z"
         placement="left"
@@ -79,7 +79,7 @@
         <div class="item" @click="exportH5">
           <i class="icon-h5" />
         </div>
-      </el-tooltip>
+      </el-tooltip> -->
       <!-- <el-tooltip
         effect="dark"
         content="生成海报"

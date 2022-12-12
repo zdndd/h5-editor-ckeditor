@@ -1,10 +1,16 @@
 <template>
-  <ckeditor v-model="newText" type="inline" @blur="editorBlur"  :config="editorConfig"></ckeditor>
-  <!-- <div class="text-widget">
-    <div v-if="!isEditing" key="1" class="text-container" contenteditable="false" :style="textStyle" v-html="newText">
+  <ckeditor
+    v-model='newText'
+    type='inline'
+    :config='editorConfig'
+    @blur='editorBlur'
+    @focus='onEditorFocus'
+  ></ckeditor>
+  <!-- <div class='text-widget'>
+    <div v-if='!isEditing' key='1' class='text-container' contenteditable='false' :style='textStyle' v-html='newText'>
     </div>
-    <div v-else key="2" ref="textContainer" class="text-container editing" style="background:pink">
-      <ckeditor v-model="newText" type="inline" @blur="editorBlur"  :config="editorConfig"></ckeditor>
+    <div v-else key='2' ref='textContainer' class='text-container editing' style='background:pink'>
+      <ckeditor v-model='newText' type='inline' @blur='editorBlur'  :config='editorConfig'></ckeditor>
     </div>
   </div> -->
 </template>
@@ -12,16 +18,19 @@
 <script>
 import { TextWidget } from 'poster/widgetConstructor'
 import { mapState, mapActions } from 'poster/poster.vuex'
+import { getSelectList } from '@/api/activity'
 export default {
   mixins: [TextWidget.widgetMixin()],
   data() {
     return {
       isEditing: false,
       newText: '',
+      selectList: [],
       editorConfig: {
         on: {
           pluginsLoaded: (evt) => {
             var editor = evt.editor
+            var list = this.selectList
             editor.ui.addRichCombo('my-combo', {
               label: '插入内容', // 标题可以修改这个
               title: 'My Dropdown Title',
@@ -31,23 +40,22 @@ export default {
                     attributes: { 'aria-label': 'My Dropdown Title' }
                 },
               init: function() {
-                this.add('我才是内容', 'Foo!')
-                this.add('目前（2022.11）加息还未结束，美元资产价格毫无疑问还会继续跌，所以显然要手握现金，等资产价格跌到位再行动', 'Bar!')
-                this.add('所以大家就盯着美国房产，特别是纽约的房产，萧条周期中再跌个15-20%很正常', 'Ping!')
-                this.add('我的观点，除了自住的房子，如果不是核心城市的核心地段的次新大户型，优先卖，其次换。', 'Pong!')
+                list.forEach(element => {
+                  this.add(element.value, element.name)
+                })
               },
               onClick: (value) => {
+                this.isEditing = true
                 editor.focus()
                 editor.fire('saveSnapshot')
                 editor.insertHtml(value)
                 editor.fire('saveSnapshot')
                 this.newText = editor.getData()
-                this.saveText()
+                // this.saveText()
               }
             })
           }
         }
-        // extraPlugins: 'placeholder'
       }
     }
   },
@@ -57,7 +65,12 @@ export default {
       return this.wState.text
     }
   },
-  created() {
+  watch: {
+    isEditing(newVal) {
+      this.$emit('draggableChange', !newVal)
+    }
+  },
+  async created() {
     if (!this.item.isCopied) {
       this.updateDragInfo({
         w: 160,
@@ -66,28 +79,34 @@ export default {
         y: 200
       })
     }
+
+    this.selectList = await getSelectList()
   },
   mounted() {
     this.newText = this.text
   },
   methods: {
-    ...mapActions(['updateWidgetState']),
+    ...mapActions(['updateWidgetState', 'getSelectList']),
     editorBlur(eee) {
       this.newText = eee.editor.getData()
       this.saveText()
+      console.log('---blur----')
     },
     saveText() {
-      // this.isEditing = false
+      this.isEditing = false
       this.updateWidgetState({
         keyPath: 'text',
         value: this.newText,
         widgetId: this.item.id
       })
+    },
+    onEditorFocus() {
+      this.isEditing = true
     }
   }
 }
 </script>
-<style lang="scss" scoped>
+<style lang='scss' scoped>
 .text-widget {
   width: 100%;
   height: 100%;

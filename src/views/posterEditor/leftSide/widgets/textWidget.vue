@@ -60,7 +60,8 @@ export default {
             fontStyle: 'italic'
           }
         }
-      ]
+      ],
+      selectList: []
     }
   },
   methods: {

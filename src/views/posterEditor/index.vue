@@ -94,16 +94,16 @@ export default {
     loading.close()
     this.initLoading = false
 
-    // this.$axios({
-    //   method: 'get',
-    //   url: '/web/user/getUserList'
-    // }).then((response) => {
-    //   if (response.data.code === 200) {
-    //     this.recover(response.data.data.page)
-    //   }
-    // }).catch((error) => {
-    //   console.log(error)
-    // })
+    this.$axios({
+      method: 'get',
+      url: '/web/user/getUserList'
+    }).then((response) => {
+      if (response.data.code === 200) {
+        this.recover(response.data.data.page)
+      }
+    }).catch((error) => {
+      console.log(error)
+    })
     // end
   },
   async mounted() {
