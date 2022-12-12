@@ -64,5 +64,5 @@ export var ee = {
     },
   ],
   referenceLine: { row: [], col: [] },
-  canvasSize: { width: 338, height: 600 },
+  canvasSize: { width: 338, height: 300 },
 };

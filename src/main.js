@@ -11,6 +11,10 @@ import '@/styles/element-variables.scss'
 import VueAddition from '@/addition'
 import PortalVue from 'portal-vue'
 import CKEditor from 'ckeditor4-vue'
+import axios from 'axios'
+require('./mock')
+
+Vue.prototype.$axios = axios
 
 Vue.config.productionTip = false
 

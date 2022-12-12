@@ -1,6 +1,6 @@
 <template>
   <div class="add-text-widget">
-    <ul>
+    <!-- <ul>
       <li
         v-for="(item, index) in presuppositionTextList"
         :key="index"
@@ -10,7 +10,7 @@
       >
         {{ `添加${item.text}` }}
       </li>
-    </ul>
+    </ul> -->
     <el-button
       class="add-text"
       size="mini"
@@ -96,7 +96,6 @@ export default {
   }
   .add-text {
     width: 100%;
-    margin-top: 20px;
   }
 }
 </style>

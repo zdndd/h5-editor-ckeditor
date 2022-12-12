@@ -26,11 +26,8 @@ import extendSideBar from './extendSideBar'
 import layerPanel from './extendSideBar/layerPanel'
 import store from '@/store'
 import posterModule from '@/store/modules/poster/poster'
-import { aa } from '../../aa'
-import { bb } from '../../bb'
-import { cc } from '../../cc'
-import { ee } from '../../ee'
-import { dd } from '../../dd'
+import ee from '../../ee'
+
 
 const DELETE_KEY = 8 // delete
 const COPY_KEY = 67 // c
@@ -97,15 +94,27 @@ export default {
     await this.resetState()
     loading.close()
     this.initLoading = false
+    // this.$axios({
+    //   method: 'get',
+    //   url: '/web/user/getUserList'
+    // }).then((response) => {
+    //   console.log(response)
+    //   if (response.data.code === 200) {
+    //     this.recover(response.data.data)
+    //   }
+    // }).catch((error) => {
+    //   console.log(error)
+    // })
+    // end
   },
   async mounted() {
     document.addEventListener('keydown', this.keydownHandle)
     this.body = document.body
     this.mainPanelRef = this.$refs.main.$refs.mainPanel
-    // setTimeout(() => {
-    //   alert('====大家好，我是初始dd')
-    //   this.recover(dd)
-    // }, 2000)
+    setTimeout(() => {
+      alert('====大家好，我是初始dd')
+      this.recover(ee)
+    }, 2000)
   },
   beforeDestroy() {
     document.removeEventListener('keydown', this.keydownHandle)
@@ -203,28 +212,34 @@ export default {
   height: 100%;
   background-color: #fff;
   position: fixed;
+
   &.init-loading {
     filter: blur(6px);
   }
+
   .base {
     width: 100%;
     height: 100%;
     position: relative;
     display: flex;
   }
+
   .left-side {
     height: 100%;
   }
+
   .poster-editor-main {
     flex: 1;
     height: 100%;
     box-sizing: border-box;
   }
+
   .extend-side-bar {
     width: 50px;
     height: 100%;
     border-left: 1px solid $colorBorder;
   }
+
   .poster-editor-control {
     width: 200px;
     height: 100%;
