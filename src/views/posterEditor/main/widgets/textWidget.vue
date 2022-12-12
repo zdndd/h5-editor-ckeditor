@@ -21,7 +21,6 @@ export default {
       editorConfig: {
         on: {
           pluginsLoaded: (evt) => {
-            console.log('双击的时候会触发你吗')
             var editor = evt.editor
             editor.ui.addRichCombo('my-combo', {
               label: '插入内容', // 标题可以修改这个

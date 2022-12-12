@@ -26,7 +26,6 @@ import extendSideBar from './extendSideBar'
 import layerPanel from './extendSideBar/layerPanel'
 import store from '@/store'
 import posterModule from '@/store/modules/poster/poster'
-import ee from '../../ee'
 
 
 const DELETE_KEY = 8 // delete
@@ -94,13 +93,13 @@ export default {
     await this.resetState()
     loading.close()
     this.initLoading = false
+
     // this.$axios({
     //   method: 'get',
     //   url: '/web/user/getUserList'
     // }).then((response) => {
-    //   console.log(response)
     //   if (response.data.code === 200) {
-    //     this.recover(response.data.data)
+    //     this.recover(response.data.data.page)
     //   }
     // }).catch((error) => {
     //   console.log(error)
@@ -111,10 +110,6 @@ export default {
     document.addEventListener('keydown', this.keydownHandle)
     this.body = document.body
     this.mainPanelRef = this.$refs.main.$refs.mainPanel
-    setTimeout(() => {
-      alert('====大家好，我是初始dd')
-      this.recover(ee)
-    }, 2000)
   },
   beforeDestroy() {
     document.removeEventListener('keydown', this.keydownHandle)
