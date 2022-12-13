@@ -1,20 +1,34 @@
 <template>
-  <div class="poster-editor" :class="{ 'init-loading': initLoading }">
-    <div class="base">
-      <!-- 左侧添加组件栏 -->
-      <left-side />
-      <!-- 主要操作区域 -->
-      <main-component ref="main" />
-      <!-- 常用功能栏 -->
-      <extend-side-bar />
-      <!-- 组件编辑区域 -->
-      <control-component />
-    </div>
-    <!-- 图层面板 -->
-    <transition name="el-zoom-in-top">
-      <layer-panel v-show="layerPanelOpened" />
-    </transition>
-  </div>
+  <el-form ref="form" :model="form" label-width="80px"  size="mini">
+      <div class="header">
+        <el-form-item label="活动名称">
+          <el-input v-model="form.name"></el-input>
+        </el-form-item>
+      </div>
+      <div class="poster-editor" :class="{ 'init-loading': initLoading }">
+        <div class="base">
+          <!-- 左侧添加组件栏 -->
+          <left-side />
+          <!-- 主要操作区域 -->
+          <main-component ref="main" />
+          <!-- 常用功能栏 -->
+          <extend-side-bar />
+          <!-- 组件编辑区域 -->
+          <control-component />
+        </div>
+        <!-- 图层面板 -->
+        <transition name="el-zoom-in-top">
+          <layer-panel v-show="layerPanelOpened" />
+        </transition>
+      </div>
+      <div class="footer">
+        <el-form-item>
+          <el-button type="primary" @click="onSubmit">保存</el-button>
+          <el-button>取消</el-button>
+        </el-form-item>
+      </div>
+
+  </el-form>
 </template>
 
 <script>
@@ -47,7 +61,10 @@ export default {
   },
   data() {
     return {
-      initLoading: false
+      initLoading: false,
+      form: {
+        name: '',
+      }
     }
   },
   computed: {
@@ -93,18 +110,19 @@ export default {
     await this.resetState()
     loading.close()
     this.initLoading = false
-
-    this.$axios({
-      method: 'get',
-      url: '/web/user/getUserList'
-    }).then((response) => {
-      if (response.data.code === 200) {
-        this.recover(response.data.data.page)
-      }
-    }).catch((error) => {
-      console.log(error)
-    })
-    // end
+    // 编辑状态
+    if (this.$route.params.id) {
+      this.$axios({
+        method: 'get',
+        url: '/web/user/getUserList'
+      }).then((response) => {
+        if (response.data.code === 200) {
+          this.recover(response.data.data.page)
+        }
+      }).catch((error) => {
+        console.log(error)
+      })
+    }
   },
   async mounted() {
     document.addEventListener('keydown', this.keydownHandle)
@@ -195,16 +213,38 @@ export default {
         default:
           break
       }
-    }
+    },
+    onSubmit() {
+        console.log('submit!')
+      }
   }
 }
 </script>
 
 <style lang="scss" scoped>
+.header,.footer{
+  height: 62px;
+  display: flex;
+  align-items: center;
+}
+.header{
+  justify-content: flex-start;
+  border-bottom: 1px solid #dcdfe6;
+}
+.footer{
+  height: 42px;
+  width: 100%;
+  text-align: center;
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  border-top: 1px solid #dcdfe6;
+  justify-content: center;
+}
 .poster-editor {
   width: 100%;
   min-width: 900px;
-  height: 100%;
+  height: calc(100% - 84px);
   background-color: #fff;
   position: fixed;
 
