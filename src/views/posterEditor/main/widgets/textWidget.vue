@@ -1,11 +1,5 @@
 <template>
-  <ckeditor
-    v-model='newText'
-    type='inline'
-    :config='editorConfig'
-    @blur='editorBlur'
-    @focus='onEditorFocus'
-  ></ckeditor>
+  <ckeditor v-model='newText' type='inline' :config='editorConfig' @blur='editorBlur' @focus='onEditorFocus'></ckeditor>
   <!-- <div class='text-widget'>
     <div v-if='!isEditing' key='1' class='text-container' contenteditable='false' :style='textStyle' v-html='newText'>
     </div>
@@ -27,19 +21,35 @@ export default {
       newText: '',
       selectList: [],
       editorConfig: {
+        toolbar: [
+            { name: 'colors', items: ['TextColor', 'BGColor'] },
+            { name: 'basicstyles', items: ['Bold', 'Italic', 'Strike'] },
+            { name: 'links', items: ['Link', 'Unlink', 'my-combo'] }
+        ],
         on: {
           pluginsLoaded: (evt) => {
             var editor = evt.editor
             var list = this.selectList
+            editor.customStyles = {
+                richCombo: `
+                    .body, html { margin: 0; padding: 0; }
+                    .cke_panel_block { padding: 5px 0; outline: none !important; }
+                    .cke_panel_list { list-style:none; padding: 0; margin: 0; }
+                    .cke_panel_listItem { padding: 0; margin; 0; }
+                    .cke_panel_listItem a { font-family: Arial; display:block; padding: 5px 10px; text-decoration:none; font-size: 13px; color: #303030; }
+                    .cke_panel_listItem a:hover { background-color: #ededed; }
+                `
+            }
             editor.ui.addRichCombo('my-combo', {
               label: '插入内容', // 标题可以修改这个
               title: 'My Dropdown Title',
-              toolbar: 'basicstyles,0',
+              toolbar: 'forms',
               panel: {
-                    multiSelect: false,
-                    attributes: { 'aria-label': 'My Dropdown Title' }
-                },
-              init: function() {
+                css: ['/src/assets/variables.css'],
+                multiSelect: false,
+                attributes: { 'aria-label': '模版' }
+              },
+              init: function () {
                 list.forEach(element => {
                   this.add(element.value, element.name)
                 })
@@ -55,7 +65,8 @@ export default {
               }
             })
           }
-        }
+        },
+        extraPlugins: 'colorbutton'
       }
     }
   },
