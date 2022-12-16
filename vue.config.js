@@ -10,7 +10,7 @@ const name = 'poster'
 
 // All configuration item explanations can be find in https://cli.vuejs.org/config/
 const webpackConfig = {
-  publicPath: './',
+  publicPath: '/Card/EditCardTemplate/',
   outputDir: 'dist',
   assetsDir: './',
   lintOnSave: process.env.NODE_ENV === 'development',
