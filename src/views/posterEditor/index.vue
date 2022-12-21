@@ -8,7 +8,7 @@
         <el-switch v-model="value1"></el-switch>
       </el-form-item>
       <el-form-item label="停用">
-        <el-switch v-model="value1"></el-switch>
+        <el-switch v-model="value2"></el-switch>
       </el-form-item>
     </div>
     <div class="poster-editor" :class="{ 'init-loading': initLoading }">
@@ -65,6 +65,8 @@ export default {
   },
   data() {
     return {
+      value1: true,
+      value2: true,
       initLoading: false,
       form: {
         name: "",
