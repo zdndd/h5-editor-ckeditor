@@ -20,71 +20,71 @@
             {{ savePageLoading ? '正在保存' : '保存页面' }}
           </el-badge>
         </span>
-      </li> -->
+      </li>-->
       <!-- <li @click="closeEditor">
         <i class="el-icon-circle-close" />
         <span>关闭编辑器</span>
-      </li>  -->
-      <li @click="saveJson">
+      </li>-->
+      <!-- <li @click="saveJson">
         <i class="el-icon-upload" />
         <span>
           <el-badge is-dot :hidden="!isUnsavedState">
             {{ savePageLoading ? '正在保存' : '保存数据' }}
           </el-badge>
         </span>
-      </li>
+      </li>-->
     </ul>
   </div>
 </template>
 
 <script>
-import { mapActions, mapState } from 'poster/poster.vuex'
-import ExportService from 'poster/service/exportService'
+import { mapActions, mapState } from "poster/poster.vuex";
+import ExportService from "poster/service/exportService";
 
 export default {
   data() {
     return {
       savePageLoading: false
-    }
+    };
   },
   computed: {
-    ...mapState(['isUnsavedState', 'posterItems'])
+    ...mapState(["isUnsavedState", "posterItems"])
   },
   methods: {
-    ...mapActions(['saveActivityPageConfig', 'saveJsonPageConfig']),
+    ...mapActions(["saveActivityPageConfig", "saveJsonPageConfig"]),
     closeEditor() {
-      this.$router.back()
+      this.$router.back();
     },
     savePage() {
-      if (this.savePageLoading) return
+      if (this.savePageLoading) return;
       if (this.posterItems.length === 0) {
-        this.$message.error('当前画布中未添加任何元素，请添加后再提交')
-        return
+        this.$message.error("当前画布中未添加任何元素，请添加后再提交");
+        return;
       }
-      this.savePageLoading = true
+      this.savePageLoading = true;
       this.saveActivityPageConfig().finally(() => {
-        this.savePageLoading = false
-      })
+        this.savePageLoading = false;
+      });
     },
     saveJson() {
-      if (this.savePageLoading) return
+      if (this.savePageLoading) return;
       if (this.posterItems.length === 0) {
-        this.$message.error('当前画布中未添加任何元素，请添加后再提交')
-        return
+        this.$message.error("当前画布中未添加任何元素，请添加后再提交");
+        return;
       }
-      this.savePageLoading = true
+      this.savePageLoading = true;
       // 保存数据后设置为false, zdn新建, 参考backup/invoker
-      this.savePageLoading = false
-      this.saveJsonPageConfig().then((res) => {
+      this.savePageLoading = false;
+      this.saveJsonPageConfig().then(res => {
         // 编辑状态数据
-        console.log('json', res)
-      })
+        console.log("json", res);
+      });
 
       // h5数据
-      ExportService.exportH5()
+      ExportService.exportH5();
     }
   }
-}
+};
 </script>
 <style lang="scss" scoped>
 .functional-bar {
@@ -93,7 +93,7 @@ export default {
   position: absolute;
   top: 26px;
   right: 4px;
-  padding: 0 10px;
+  // padding: 0 10px;
   box-shadow: 0 0 6px rgba($color: #000000, $alpha: 0.2);
   z-index: 999;
   height: 24px;

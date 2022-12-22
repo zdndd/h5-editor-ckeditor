@@ -7,78 +7,80 @@
         class="presupposition-item"
         :style="item.style"
         @click="addText(item)"
-      >
-        {{ `添加${item.text}` }}
-      </li>
-    </ul> -->
-    <el-button
-      class="add-text"
-      size="mini"
-      type="plain"
-      @click="addText(null)"
-    >添加文本</el-button>
+      >{{ `添加${item.text}` }}</li>
+    </ul>-->
+    <el-button class="add-text" size="mini" type="plain" @click="addText(null)">添加文本</el-button>
   </div>
 </template>
 
 <script>
-import { mapActions } from 'poster/poster.vuex'
-import { TextWidget } from '../../widgetConstructor'
+import { mapActions } from "poster/poster.vuex";
+import { TextWidget } from "../../widgetConstructor";
 
 export default {
   data() {
     return {
       presuppositionTextList: [
         {
-          text: '标题',
+          text: "标题",
           style: {
-            fontSize: '24px'
+            fontSize: "24px"
           }
         },
         {
-          text: '副标题',
+          text: "副标题",
           style: {
-            fontSize: '18px'
+            fontSize: "18px"
           }
         },
         {
-          text: '正文内容',
+          text: "正文内容",
           style: {
-            fontSize: '14px'
+            fontSize: "14px"
           }
         },
         {
-          text: '粗体文本',
+          text: "粗体文本",
           style: {
-            fontSize: '14px',
-            fontWeight: 'bold'
+            fontSize: "14px",
+            fontWeight: "bold"
           }
         },
         {
-          text: '斜体文本',
+          text: "斜体文本",
           style: {
-            fontSize: '14px',
-            fontStyle: 'italic'
+            fontSize: "14px",
+            fontStyle: "italic"
           }
         }
       ],
       selectList: []
-    }
+    };
   },
   methods: {
-    ...mapActions(['addItem']),
+    ...mapActions(["addItem"]),
     addText(item) {
       if (item) {
         this.addItem(
           new TextWidget({
             wState: item
           })
-        )
+        );
       } else {
-        this.addItem(new TextWidget())
+        this.addItem(
+          new TextWidget({
+            wState: {
+              text: "添加内容",
+              style: {
+                fontSize: "14px"
+              }
+            }
+          })
+        );
       }
     }
   }
-}
+};
 </script>
 <style lang="scss" scoped>
 .add-text-widget {

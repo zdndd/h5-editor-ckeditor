@@ -1,14 +1,14 @@
 <template>
-  <el-form ref="form" :model="form" label-width="80px" size="mini">
+  <el-form ref="form" :model="form" :rules="rules" label-width="80px" size="mini">
     <div class="header">
-      <el-form-item label="活动名称">
+      <el-form-item label="活动名称" prop="name">
         <el-input v-model="form.name"></el-input>
       </el-form-item>
       <el-form-item label="共享">
-        <el-switch v-model="value1"></el-switch>
+        <el-switch v-model="form.value1"></el-switch>
       </el-form-item>
       <el-form-item label="停用">
-        <el-switch v-model="value2"></el-switch>
+        <el-switch v-model="form.value2"></el-switch>
       </el-form-item>
     </div>
     <div class="poster-editor" :class="{ 'init-loading': initLoading }">
@@ -29,7 +29,7 @@
     </div>
     <div class="footer">
       <el-form-item>
-        <el-button type="primary" @click="onSubmit">保存</el-button>
+        <el-button type="primary" @click="onSubmit('form')">保存</el-button>
         <el-button>取消</el-button>
       </el-form-item>
     </div>
@@ -45,6 +45,7 @@ import extendSideBar from "./extendSideBar";
 import layerPanel from "./extendSideBar/layerPanel";
 import store from "@/store";
 import posterModule from "@/store/modules/poster/poster";
+import ExportService from "poster/service/exportService";
 
 const DELETE_KEY = 8; // delete
 const COPY_KEY = 67; // c
@@ -61,16 +62,19 @@ export default {
     mainComponent,
     leftSide,
     extendSideBar,
-    layerPanel,
+    layerPanel
   },
   data() {
     return {
-      value1: true,
-      value2: true,
       initLoading: false,
       form: {
         name: "",
+        value1: true,
+        value2: true
       },
+      rules: {
+        name: [{ required: true, message: "" }]
+      }
     };
   },
   computed: {
@@ -80,9 +84,9 @@ export default {
       "activeItems",
       "copiedWidgets",
       "referenceLineOpened",
-      "isUnsavedState",
+      "isUnsavedState"
     ]),
-    ...mapGetters(["activeItemIds"]),
+    ...mapGetters(["activeItemIds"])
   },
   beforeRouteLeave(to, from, next) {
     if (this.isUnsavedState) {
@@ -111,7 +115,7 @@ export default {
       lock: true,
       text: "正在初始化编辑器",
       spinner: "el-icon-loading",
-      background: "rgba(255, 255, 255, 0.6)",
+      background: "rgba(255, 255, 255, 0.6)"
     });
     await this.resetState();
     loading.close();
@@ -120,14 +124,14 @@ export default {
     if (this.$route.params.id) {
       this.$axios({
         method: "get",
-        url: "/web/user/getUserList",
+        url: "/web/user/getUserList"
       })
-        .then((response) => {
+        .then(response => {
           if (response.data.code === 200) {
             this.recover(response.data.data.page);
           }
         })
-        .catch((error) => {
+        .catch(error => {
           console.log(error);
         });
     }
@@ -150,6 +154,7 @@ export default {
       "setLayerPanel",
       "setReferenceLineVisible",
       "resetState",
+      "saveJsonPageConfig"
     ]),
     ...mapActions({
       undo: "history/undo",
@@ -157,7 +162,7 @@ export default {
       backupInit: "backup/init",
       killAutoSaveTask: "backup/killAutoSaveTask",
       backupInvoker: "backup/invoker",
-      recover: "backup/recover",
+      recover: "backup/recover"
     }),
     keydownHandle(e) {
       if (e.target !== this.body) {
@@ -171,7 +176,7 @@ export default {
           if (this.activeItemIds.length > 0) {
             this.replacePosterItems(
               this.posterItems.filter(
-                (item) => !this.activeItemIds.includes(item.id)
+                item => !this.activeItemIds.includes(item.id)
               )
             );
           }
@@ -189,7 +194,7 @@ export default {
             // const widgetRef = widgetRefs[itemId][0]
             // copiedWidgets.push(getCopyData(widgetRef.item, widgetRef._self))
             // })
-            const copiedWidgets = [...this.activeItems].map((item) => {
+            const copiedWidgets = [...this.activeItems].map(item => {
               item._copyFrom = "command";
               return item;
             });
@@ -222,19 +227,38 @@ export default {
           break;
       }
     },
-    onSubmit() {
-      console.log("submit!");
-    },
-  },
+    onSubmit(formName) {
+      this.$refs[formName].validate(valid => {
+        if (valid) {
+          if (this.posterItems.length === 0) {
+            this.$message.error("当前画布中未添加任何元素，请添加后再提交");
+            return;
+          }
+          this.saveJsonPageConfig().then(res => {
+            // 编辑状态数据
+            console.log("json", res);
+          });
+          // h5数据
+          console.log("html222---", ExportService.exportH5());
+        } else {
+          console.log("error submit!!");
+          return false;
+        }
+      });
+    }
+  }
 };
 </script>
 
 <style lang="scss" scoped>
 .header,
 .footer {
-  height: 62px;
+  height: 42px;
   display: flex;
   align-items: center;
+  .el-form-item--mini.el-form-item {
+    margin-bottom: 0;
+  }
 }
 .header {
   justify-content: flex-start;
@@ -285,7 +309,7 @@ export default {
   }
 
   .poster-editor-control {
-    width: 200px;
+    width: 180px;
     height: 100%;
     box-sizing: border-box;
     border-left: 1px solid $colorBorder;

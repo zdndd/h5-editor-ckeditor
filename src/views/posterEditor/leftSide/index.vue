@@ -21,26 +21,26 @@
 </template>
 
 <script>
-import imageWidget from './widgets/imageWidget'
-import backgroundWidget from './widgets/backgroundWidget'
-import textWidget from './widgets/textWidget'
-import rectWidget from './widgets/rectWidget'
-import { mapActions } from 'poster/poster.vuex'
-import { BackgroundWidget } from 'poster/widgetConstructor'
-import { pluginMap, pluginWrap } from '../plugins'
+import imageWidget from "./widgets/imageWidget";
+import backgroundWidget from "./widgets/backgroundWidget";
+import textWidget from "./widgets/textWidget";
+import rectWidget from "./widgets/rectWidget";
+import { mapActions } from "poster/poster.vuex";
+import { BackgroundWidget } from "poster/widgetConstructor";
+import { pluginMap, pluginWrap } from "../plugins";
 
 // 注册插件
-const pluginWidgets = []
-const pluginComponents = {}
+const pluginWidgets = [];
+const pluginComponents = {};
 for (const [pluginName, options] of Object.entries(pluginMap.leftSide)) {
-  const { name, icon, component } = options
+  const { name, icon, component } = options;
   pluginWidgets.push({
     type: pluginName,
     component: pluginName,
     name,
     icon
-  })
-  pluginComponents[pluginName] = pluginWrap(component)
+  });
+  pluginComponents[pluginName] = pluginWrap(component);
 }
 
 export default {
@@ -56,50 +56,50 @@ export default {
       current: null,
       widgets: [
         {
-          type: 'image',
-          component: 'image-widget',
-          name: '图片',
-          icon: 'el-icon-picture'
+          type: "image",
+          component: "image-widget",
+          name: "图片",
+          icon: "el-icon-picture"
         },
         {
-          type: 'background',
-          component: 'background-widget',
-          name: '背景',
-          icon: 'icon-background'
+          type: "background",
+          component: "background-widget",
+          name: "背景",
+          icon: "icon-background"
         },
         {
-          type: 'text',
-          component: 'text-widget',
-          name: '文本',
-          icon: 'icon-text'
+          type: "text",
+          component: "text-widget",
+          name: "文本",
+          icon: "icon-text"
         },
         {
-          type: 'rect',
-          component: 'rect-widget',
-          name: '矩形',
-          icon: 'icon-rect'
+          type: "rect",
+          component: "rect-widget",
+          name: "矩形",
+          icon: "icon-rect"
         },
         ...pluginWidgets
       ]
-    }
+    };
   },
   methods: {
-    ...mapActions(['addBackground']),
+    ...mapActions(["addBackground"]),
     init() {
       this.addBackground(
         new BackgroundWidget({
-          backgroundColor: '#fff',
+          backgroundColor: "#fff",
           isSolid: true,
           lock: true
         })
-      )
+      );
     }
   },
   created() {
-    this.current = this.widgets[0]
-    this.init()
+    this.current = this.widgets[0];
+    this.init();
   }
-}
+};
 </script>
 
 <style lang="scss" scoped>
@@ -131,7 +131,7 @@ export default {
     }
   }
   .widget-container {
-    width: 200px;
+    width: 180px;
     height: 100%;
   }
 }
